@@ -17,7 +17,7 @@ Przed uruchomieniem projektu trzeba założyć bazę danych o nazwie "system_ksi
 w głównym folderze aplikacji na tej bazie danych. Do projektu trzeba dograć biblioteki Symfony i Symfony Webpack-Encore. W pliku .env w głównym 
 folderze aplikacji ustawiamy zmienną APP_NAME na nazwę aplikacji i zmienną PAGINATION_NUM_ROWS na liczbę maksymalną wierszy wyświetlaną w ramach 
 jednej strony paginacji na liście książek. Po uruchomieniu aplikacji z menu trzeba wybrać "Książki" i wówczas pojawi się lista książek. 
-Jeśli na liście nie będzie książek będzie napis "Brak książek". Aby dodać książkę do bazy danych trzeba kliknąć w link "Dodaj książkę". 
+Jeśli na liście nie będzie książek to będzie napis "Brak książek". Aby dodać książkę do bazy danych trzeba kliknąć w link "Dodaj książkę". 
 Po kliknięciu w ten link pojawi się formularz dodawania książki. W tym formularzu trzeba podać imię, nazwisko, tytuł i opis. Po wciśnięciu 
 przycisku "Zapisz" zostanie dodana do bazy danych nowa książka. Jeśli chcemy zaktualizować jakąś książkę to przy wybranej z listy książce trzeba 
 wcisnąć link "Edytuj". Po wciśnięciu tego przycisku pojawi się formularz aktualizacji książki gdzie w polach analogicznych jak w formularzu 

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% set current_route_name = app.request.get('_route') %}
+
+{% block subtitle %} - Formularz {% if current_route_name == 'books_add' %}dodawania{% elseif current_route_name == 'books_edit' %}aktualizacji{% endif %} książki{% endblock %}
+
+{% block body %}
+    <h1>Formularz {% if current_route_name == 'books_add' %}dodawania{% elseif current_route_name == 'books_edit' %}aktualizacji{% endif %} książki</h1>
+    <div id="books_form_add" class="mt-5">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    {% if current_route_name == 'books_add' %}
+                        {{ button_label|default('Zapisz') }}
+                    {% elseif current_route_name == 'books_edit' %}
+                        {{ button_label|default('Aktualizuj') }}
+                    {% endif %}
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

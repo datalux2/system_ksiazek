@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block subtitle %} - Książki{% endblock %}
+
+{% block body %}
+    <h1>Książki</h1>
+    <div id="add_link" class="mt-5 mb-5">
+        <a href="{{ path('books_add') }}">Dodaj książkę</a>
+    </div>
+    <div id="books_table">
+        {% if ksiazki is not empty %}
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" class="text-center">L.p.</th>
+                        <th>Id</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Tytuł</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for ksiazka in ksiazki %}
+                    <tr class="table-secondary">
+                        <td class="text-center">
+                            {% if pageNum == 1 %}
+                                {{ loop.index }}
+                            {% elseif pageNum > 1 %}
+                                {{ offset + loop.index }}
+                            {% endif %}
+                        </td>
+                        <td>{{ ksiazka.id }}</td>
+                        <td>{{ ksiazka.name }}</td>
+                        <td>{{ ksiazka.surname }}</td>
+                        <td>{{ ksiazka.title }}</td>
+                        <td>
+                            <a href="{{ path('books_edit', {'id': ksiazka.id}) }}" class="d-block">Edytuj</a>
+                            <form method="post" action="{{ path('books_delete', {'id': ksiazka.id}) }}" 
+                                  onsubmit="return confirm('Czy jesteś pewien usunąć tą książkę ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ksiazka.id) }}">
+                                <a href="javascript: void;" class="delete_link">Usuń</a>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="navigation d-flex justify-content-between mb-5 mt-4">
+                <div>
+                    Wyświetlono {{ offset + 1 }} - {{ a }} z {{ countRows }} wierszy
+                </div>
+                <div>
+                    {% if countPages <= 5 %}
+                        {% for i in 1..countPages %}
+                            {% if pageNum != i %}<a href="{{ path('books_index', {'pageNum': i}) }}">{% endif %}{{ i }}{% if pageNum != i %}</a>{% endif %}&nbsp;&nbsp;
+                        {% endfor %}
+                    {% else %}
+                        {% if pageNum <= 3 %}
+                            {% for i in 1..(pageNum + 1) %}
+                                {% if pageNum != i %}<a href="{{ path('books_index', {'pageNum': i}) }}">{% endif %}{{ i }}{% if pageNum != i %}</a>{% endif %}&nbsp;&nbsp;
+                            {% endfor %}
+                            ...&nbsp;&nbsp;
+                            {% if pageNum != countPages %}<a href="{{ path('books_index', {'pageNum': countPages}) }}">{% endif %}{{ countPages }}{% if pageNum != countPages %}</a>{% endif %}&nbsp;&nbsp;
+                        {% elseif pageNum >= (countPages - 2) %}
+                            {% if pageNum != 1 %}<a href="{{ path('books_index', {'pageNum': 1}) }}">{% endif %}1{% if pageNum != 1 %}</a>{% endif %}&nbsp;&nbsp;
+                            ...&nbsp;&nbsp;
+                            {% for i in (pageNum - 1)..countPages %}
+                                {% if pageNum != i %}<a href="{{ path('books_index', {'pageNum': i}) }}">{% endif %}{{ i }}{% if pageNum != i %}</a>{% endif %}&nbsp;&nbsp;
+                            {% endfor %}
+                        {% elseif pageNum > 3 and pageNum < (countPages - 2) %}
+                            {% if pageNum != 1 %}<a href="{{ path('books_index', {'pageNum': 1}) }}">{% endif %}1{% if pageNum != 1 %}</a>{% endif %}&nbsp;&nbsp;
+                            ...&nbsp;&nbsp;
+                            {% for i in (pageNum - 1)..(pageNum + 1) %}
+                                {% if pageNum != i %}<a href="{{ path('books_index', {'pageNum': i}) }}">{% endif %}{{ i }}{% if pageNum != i %}</a>{% endif %}&nbsp;&nbsp;
+                            {% endfor %}
+                            ...&nbsp;&nbsp;
+                            {% if pageNum != countPages %}<a href="{{ path('books_index', {'pageNum': countPages}) }}">{% endif %}{{ countPages }}{% if pageNum != countPages %}</a>{% endif %}&nbsp;&nbsp;
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            Brak książek
+        {% endif %}
+    </div>
+{% endblock %}

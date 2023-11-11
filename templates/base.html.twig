@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ app_name|upper }}{% block subtitle %}{% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="display-6 text-center text-uppercase fw-bold pb-5 pt-5 position-relative">
+            {{ app_name|upper }}
+        </div>
+        {% set current_route_name = app.request.get('_route') %}
+        <div id="menu-container" class="float-start">
+            <ul id="menu" class="list-group ms-4">
+                <li class="list-group-item p-0{% if current_route_name == 'home' %} active{% endif %}"><a href="{{ path('home') }}" class="d-block text-black w-100 p-2 text-center">Strona główna</a></li>
+                <li class="list-group-item p-0{% if current_route_name == 'books_index' or current_route_name == 'books_add' or current_route_name == 'books_edit' %} active{% endif %}"><a href="{{ path('books_index') }}" class="d-block text-black w-100 p-2 text-center">Książki</a></li>
+            </ul>
+        </div>
+        <div id="content" class="float-start ms-4">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
+        <div id="footer">
+            
+        </div>
+    </body>
+</html>

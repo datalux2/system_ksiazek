@@ -65,18 +65,8 @@ class BooksController extends AbstractController
             $countPages = 0;
         }
         
-        if ($pageNum > $countPages)
+        if ($pageNum > $countPages and $countPages > 0)
         {
-            /*$loader = new FilesystemLoader('%kernel.project_dir%/templates/');
-            $twig = new Environment($loader);
-            
-            
-            
-            $response = new Response($twig->render('bundles/TwigBundle/error404.html.twig', [
-                'app_name' => $_ENV["APP_NAME"]
-            ], 404));
-            
-            return $response;*/
             $view = $this->renderView('bundles/TwigBundle/Exception/error404.html.twig', [
                 'app_name' => $_ENV["APP_NAME"],
             ], 404);
